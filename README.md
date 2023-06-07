@@ -1,10 +1,10 @@
 # Loja
 
-<p>
-<a href="https://pt-br.reactjs.org" target="_blank"><img src="https://cdn.jsdelivr.net/gh//devicons/devicon/icons/react/react-original.svg" width="200" alt="React Logo"></a> 
+
+<a href="https://pt-br.reactjs.org" target="_blank"><img src="https://cdn.jsdelivr.net/gh//devicons/devicon/icons/react/react-original.svg" width="150" alt="React Logo"></a> 
 
 
-<a href="https://pt-br.reactjs.org" target="_blank"><img src="https://cdn.jsdelivr.net/gh//devicons/devicon/icons/nodejs/nodejs-original.svg" width="200" alt="React Logo"></a>  </p>
+<a href="https://pt-br.reactjs.org" target="_blank"><img src="https://cdn.jsdelivr.net/gh//devicons/devicon/icons/nodejs/nodejs-original.svg" width="150" alt="React Logo"></a>  
 
 ## Project setup
 
