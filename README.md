@@ -17,7 +17,7 @@ npm install
  npm start
 ```
 
-Observações o arquivo Front-end está rodando na http://localhost:3000 e o arquivo Back-end está na porta  http://localhost:3000
+Observações o arquivo Front-end está rodando na http://localhost:3001 e o arquivo Back-end está na porta  http://localhost:3000
 
 ### Desenvolvido por Guilherme Carlos ||  Victor Cals || Anna Borges
 
