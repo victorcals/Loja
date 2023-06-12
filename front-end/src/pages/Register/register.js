@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import "../../components/Button/Button.css";
 
 function Register() {
-
   const [name, setName] = useState('');
   const [telefone, setTelefone] = useState('');
   const [endereco, setEndereco] = useState('');
@@ -25,7 +24,11 @@ function Register() {
     setNomeCartaocvc(event.target.value);
   }
   function handleNumeroCartaoChange(event) {
-    setNumeroCartao(event.target.value);
+    let numero = event.target.value.replace(/-/g, '');
+    numero = numero.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1-');
+    if (numero.length <= 19) {
+      setNumeroCartao(numero);
+    }
   }
   function handleNumerocvcChange(event) {
     setNumerocvc(event.target.value);
@@ -34,17 +37,9 @@ function Register() {
     setSelectedPlan(plan);
   };
 
-  function handleNumeroCartaoChange(event) {
-    let numero = event.target.value.replace(/-/g, '');
-    numero = numero.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1-');
-    if (numero.length <= 19) {
-      setNumeroCartao(numero);
-    }
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
-  
+
     const user = {
       Nome: name,
       Telefone: telefone,
@@ -52,29 +47,29 @@ function Register() {
       NomeCartao: nomeCartao,
       NumCartao: numeroCartao,
       CVC: numerocvc,
-      Plano: selectedPlan 
+      Plano: selectedPlan
     };
-  
+
     console.log(user);
-    alert('Assinado com sucesso!');
+    alert('Comprado com sucesso!');
   }
 
   return (
 
     <div className="container">
       <div className="mt-5 text-center">
-        <h1> Cadastro de Assinatura </h1>
+        <h1> Complete a sua compra </h1>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="row mt-5">
           <div className="col">
             <div>
               <div className="mt-3">
-                <label> Dados do Assinante </label>
+                <label> Dados do usuário </label>
               </div>
             </div>
             <div className="mt-3">
-              <label >Name:</label><br />
+              <label >Nome Completo:</label><br />
               <input className="form-control" placeholder="Nome Completo" id="nameInput" type="text" value={name} onChange={handleNameChange} /> <br />
             </div>
             <div className="mt-3">
@@ -82,7 +77,7 @@ function Register() {
               <input className="form-control" placeholder="Telefone" id="TelefoneInput" type="number" value={telefone} onChange={handleTelefoneChange} /> <br />
             </div>
             <div className="mt-3">
-              <label >Endereço:</label><br />
+              <label >Endereço de entrega:</label><br />
               <input className="form-control" placeholder="Endereço" id="EnderecoInput" type="text" value={endereco} onChange={handleEnderecoChange} /> <br />
             </div>
           </div>
@@ -107,17 +102,17 @@ function Register() {
         <div>
           <div>
             <div className="mt-3">
-              <label htmlFor="NumerocvcInput">Selecione um Plano:</label>
+              <label htmlFor="NumerocvcInput">Selecione a Forma de pagamento:</label>
               <br />
               <div className="mt-3">
-                <button type="button"  className={selectedPlan === 'Free' ? "button selected" : "button"} onClick={() => handleButtonClick('Free')} >  Free  </button>
-                <button type="button"  className={selectedPlan === 'Plus' ? "button selected" : "button"} onClick={() => handleButtonClick('Plus')} > Plus </button>
+                <button type="button" className={selectedPlan === 'Free' ? "button selected" : "button"} onClick={() => handleButtonClick('Free')} >  Debito  </button>
+                <button type="button" className={selectedPlan === 'Plus' ? "button selected" : "button"} onClick={() => handleButtonClick('Plus')} > Credito </button>
                 <input type="hidden" name="plano" value={selectedPlan} />
               </div>
             </div>
           </div>
           <div className="mt-5 text-center">
-            <button className="btn" onClick={handleSubmit}>Assinar</button>
+            <button className="btn" onClick={handleSubmit}>Comprar</button>
           </div>
         </div>
       </form>

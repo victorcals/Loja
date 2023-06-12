@@ -1,6 +1,6 @@
-export const AssistidoCont = styled.div`
+// export const AssistidoCont = styled.div`
 
-display: flex;
-flex-direction: column;
+// display: flex;
+// flex-direction: column;
 
-`
+// `

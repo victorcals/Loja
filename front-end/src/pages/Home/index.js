@@ -69,7 +69,8 @@ function Home() {
 
     return (
         <Container>
-            <h1>Filmes</h1>
+            <h1>Loja Apple</h1><br></br>
+            <h3>Compre os itens abaixo</h3>
             <OrderByContainer>
                 <div className="d-flex justify-content-between mr-md-1">
                     <div className="col-md-3">
@@ -93,24 +94,14 @@ function Home() {
                     </div>
                 </div>
             </OrderByContainer>
-            <MovieList>
-                {sortedMovies.filter(movie => movie.titulo.toLowerCase().includes(searchTerm.toLowerCase())).map(movie => {
-                    return (
-                        <Movie key={movie.id}>
-                            <Link to={`/details/${movie.id}`}>
-                                <img src={`${movie.poster}`} alt={movie.titulo} />
-                            </Link>
-                            <span>{movie.titulo}</span>
-                            <span>Nota: {movie.nota}</span>
-                            <Assistido
-                                assistido={movie.assistido}
-                                onClick={handleAssistidoClick}
-                                id={movie.id}
-                            />
-                        </Movie>
-                    );
-                })}
-            </MovieList>
+
+
+
+
+
+
+
+
         </Container >
     );
 }
@@ -128,35 +119,48 @@ export default Home;
 
 
 
-// return (
 
 
 
-//     < Container >
-//         <h1> Movies</h1>
-
-//         <MovieList>
 
 
 
-//             {
-//                 movies.map(movie => {
-//                     return (
-//                         <Movie>
-//                             <a href="https://uiverse.io/challenges/open-source-card-challenge">
-
-//                                 <img src={movie.image_url} alt={movie.title} /></a>
 
 
-//                             <span> {movie.title}</span>
-
-//                         </Movie>
-//                     )
-//                 })
-//             }
 
 
-//         </MovieList>
 
-//     </Container>
-// )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <MovieList>
+                {sortedMovies.filter(movie => movie.titulo.toLowerCase().includes(searchTerm.toLowerCase())).map(movie => {
+                    return (
+                        <Movie key={movie.id}>
+                            <Link to={`/details/${movie.id}`}>
+                                <img src={`${movie.poster}`} alt={movie.titulo} />
+                            </Link>
+                            <span>{movie.titulo}</span>
+                            <span>Nota: {movie.nota}</span>
+                            <Assistido
+                                assistido={movie.assistido}
+                                onClick={handleAssistidoClick}
+                                id={movie.id}
+                            />
+                        </Movie>
+                    );
+                })}
+            </MovieList> */}

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Container, Fina } from "./style";
 
-import comentarios from '../../components/Comments/index';
-import Assistido from "../../components/Button/assistido";
+// import comentarios from '../../components/Comments/index';
+// import Assistido from "../../components/Button/assistido";
 
 function Details() {
 
@@ -13,8 +13,23 @@ function Details() {
     const [data, setData] = useState(false);
     const [notFound, setNotFound] = useState(false);
 
+    // useEffect(() => {
+    //     fetch(`http://localhost:3000${id}`)
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             if (data.length === 0) {
+    //                 setNotFound(true);
+    //             } else {
+    //                 setMovies(data);
+    //                 setData(true);
+    //             }
+
+    //         });
+    // }, [id]);
+
+
     useEffect(() => {
-        fetch(`http://localhost:3000${id}`)
+        fetch(`https://my-json-server.typicode.com/marycamila184/moviedetails/moviedetails/${id}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.length === 0) {
@@ -47,7 +62,7 @@ function Details() {
     if (!movies.id || notFound) {
         return (
             <>
-                <p>Filme não encontrado.</p>
+                <p>Produto não encontrado.</p>
                 <Link to="/">
                     <button variant="primary">Voltar</button>
                 </Link>
@@ -56,12 +71,15 @@ function Details() {
     }
 
 
-    const handleAssistidoClick = (id) => {
-        setMovies((prevState) => ({
-            ...prevState,
-            assistido: !prevState.assistido
-        }));
-    };
+    //FUNÇÃO ASSISTIDO
+
+
+    // const handleAssistidoClick = (id) => {
+    //     setMovies((prevState) => ({
+    //         ...prevState,
+    //         assistido: !prevState.assistido
+    //     }));
+    // };
 
     return (
 
@@ -78,17 +96,25 @@ function Details() {
                             <span> Ano: {movies.ano}</span>
                             <span> Ano: {movie.nota}</span>
                             <span> Sinopse: {movies.sinopse}</span>
-                            <Assistido
+
+
+
+
+                            {/* <Assistido
                                 assistido={movies.assistido}
                                 onClick={handleAssistidoClick}
                                 id={movies.id}
-                            />
+                            /> */}
+
+
+
+
                             <Link to="/">
                                 <button variant="primary">Voltar</button>
                             </Link>
                         </div>
                     </div>
-                    <Fina>
+                    {/* <Fina>
                         <div>
                             <h2>Comentários:</h2>
                             {comentarios.length > 0 ? (
@@ -110,7 +136,7 @@ function Details() {
                                 <p>Sem comentários para esse filme.</p>
                             )}
                         </div>
-                    </Fina>
+                    </Fina> */}
                 </Container>
             ) : (
                 <p>Filme não encontrado.</p>
