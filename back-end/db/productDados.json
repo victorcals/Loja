@@ -1,0 +1,9 @@
+{
+    "codigoProduct": 123,
+    "nome": "Nome do Produto",
+    "descricao": "Descrição do Produto",
+    "preco": "100.00",
+    "modelo": "Modelo do Produto",
+    "comentarios": "Comentários sobre o Produto",
+    "categoria": "id_da_categoria"
+}

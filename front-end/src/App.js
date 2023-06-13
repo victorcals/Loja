@@ -11,6 +11,7 @@ import Navbar from './components/Headers/navbar';
 import Logar from './pages/Login/logar';
 import Footer from './components/Footer/index';
 import Load from './components/Loading/load';
+import AdminArea from './pages/Login/admin';
 
 
 
@@ -26,6 +27,8 @@ function App() {
         <Route path='/details/:id' element={<Details />} />
         <Route path='/logar' element={<Logar />} />
         <Route path='/cadastro' element={<Register />} />
+        <Route path="/admin" element={<AdminArea />} />
+
         <Route path='/*' element={<div> <h1>  Pagina não existe </h1></div>} />
 
       </Routes>
