@@ -17,15 +17,16 @@ function Logar() {
     }
 
     function handleLogin() {
-        // Verificar o tipo de usuário com base no email e senha fornecidos
+        // login teste cliente
         if (email === 'cliente@cliente.com' && password === 'senhaCliente') {
-            // Cliente logado
+
             navigate('/');
+            // login teste adm
         } else if (email === 'admin@admin.com' && password === 'senhaAdmin') {
-            // Administrador logado
+
             navigate('/admin');
         } else {
-            // Informações de login inválidas
+
             alert('Email ou senha inválidos');
         }
     }
