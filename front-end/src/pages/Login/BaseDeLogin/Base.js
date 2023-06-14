@@ -52,7 +52,6 @@ function AdmCadastro() {
             category,
         };
 
-        // Aqui você pode enviar os dados para o backend usando fetch() ou outra biblioteca de requisições HTTP
 
         fetch('localhoss', {
             method: 'POST',
@@ -63,15 +62,15 @@ function AdmCadastro() {
         })
             .then(response => response.json())
             .then(data => {
-                // Lógica de manipulação da resposta do servidor após o envio dos dados
+
                 console.log('Produto cadastrado com sucesso!', data);
             })
             .catch(error => {
-                // Lógica de tratamento de erros
+
                 console.error('Ocorreu um erro ao cadastrar o produto:', error);
             });
 
-        // Limpar os campos após o envio
+
         setCodigo('');
         setNome('');
         setDescricao('');
@@ -83,7 +82,7 @@ function AdmCadastro() {
 
 
 
-    //criar logica para cadastro do cliente ainda 
+
 
     return (
 
@@ -124,7 +123,7 @@ function AdmCadastro() {
                     <button type="submit">Cadastrar</button>
                 </form>
             </div>
-            {/* <div className="form-section">
+            <div className="form-section">
                 <h2>Cadastro de Cliente</h2>
                 <form onSubmit={handleClienteSubmit}>
                     <div>
@@ -134,11 +133,17 @@ function AdmCadastro() {
                     <div>
                         <label htmlFor="nomeCliente">Nome do Cliente:</label>
                         <input type="text" id="nomeCliente" value={nomeCliente} onChange={(e) => setNomeCliente(e.target.value)} />
-                    </div> */}
-            {/* Cria função do cliente */}
-            <button type="submit">Cadastrar Cliente</button>
-            {/* </form>
-            </div> */}
+                    </div>
+
+
+
+                    {/* CRIAR AS COISAS DO CLIENTE */}
+
+
+
+                    <button type="submit">Cadastrar Cliente</button>
+                </form>
+            </div>
         </div>
 
 
