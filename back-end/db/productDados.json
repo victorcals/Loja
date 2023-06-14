@@ -1,9 +1,9 @@
 {
-    "codigoProduct": 123,
+    "codigo": 123,
     "nome": "Nome do Produto",
     "descricao": "Descrição do Produto",
     "preco": "100.00",
-    "modelo": "Modelo do Produto",
+    "animal": "Cachorro, gato",
     "comentarios": "Comentários sobre o Produto",
-    "categoria": "id_da_categoria"
+    "category": {"codigo" : "id_da_categoria"}
 }

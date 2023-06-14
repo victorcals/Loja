@@ -4,8 +4,8 @@ class ProductController {
     async salvarCategoria(req, res) {
         try {
           let category = req.body;
-          const max = await categoryModel.findOne({}).sort({ codigoCategory: -1 });
-          category.codigoCategory = max == null ? 1 : max.codigoCategory + 1;
+          const max = await categoryModel.findOne({}).sort({ codigo: -1 });
+          category.codigo = max == null ? 1 : max.codigo + 1;
           const resultado = await categoryModel.create(category);
           if(resultado)
           res.status(201).json('Usuário cadastrado com sucesso. Verifique no banco!');
@@ -32,8 +32,8 @@ class ProductController {
       
       async buscarPorCodigoCategoria(req, res) {
         try {
-          const codigoCategory = req.params.codigoCategory;
-          const resultado = await categoryModel.findOne({ 'codigoCategory': codigoCategory });
+          const codigo = req.params.codigo;
+          const resultado = await categoryModel.findOne({ 'codigo': codigo });
           if (resultado) {
             res.status(200).json(resultado);
           } else {
@@ -46,8 +46,8 @@ class ProductController {
 
     async atualizarCategoria(req, res) {
         try {
-          const codigoCategory = req.params.codigoCategory;
-          const dadoExistente = await categoryModel.findOne({ 'codigoCategory': codigoCategory });
+          const codigo = req.params.codigo;
+          const dadoExistente = await categoryModel.findOne({ 'codigo': codigo });
       
           if (!dadoExistente) {
             return res.status(404).json({ error: 'Dado não encontrado' });
@@ -64,8 +64,8 @@ class ProductController {
       
       async excluirCategoria(req, res) {
         try {
-          const codigoCategory = req.params.codigoCategory;
-          const dadoExistente = await categoryModel.findOne({ 'codigoCategory': codigoCategory });
+          const codigo = req.params.codigo;
+          const dadoExistente = await categoryModel.findOne({ 'codigo': codigo });
       
           if (!dadoExistente) {
             return res.status(404).json({ error: 'Dado não encontrado' });

@@ -4,12 +4,13 @@ const categoryModel = require('../models/Category');
 
 class ProductController {
     async salvarProduct(req, res) {
-        try {
-          let product = req.body;
-          const max = await productModel.findOne({}).sort({ codigoProduct: -1 });
-          product.codigoProduct = max == null ? 1 : max.product + 1;
+         try {
+            
+          const max = await productModel.findOne({}).sort({ codigo: -1 });
+          const product = req.body;
+          product.codigo = max == null ? 1 : max.codigo + 1;
 
-          const category = await categoryModel.findOne({codigoCategory: category.codigoCategory });
+          const category = await categoryModel.findOne({codigo: product.category.codigo });
           product.category = category._id;
 
           const resultado = await productModel.create(product);
@@ -22,6 +23,7 @@ class ProductController {
           res.status(500).json({ error: 'Erro ao salvar dado' });
         } 
       }
+      
        
       async listarProduct(req, res) {
         try {
@@ -38,8 +40,8 @@ class ProductController {
       
       async buscarPorCodigoProduct(req, res) {
         try {
-          const codigoProduct = req.params.codigoProduct;
-          const resultado = await productModel.findOne({ 'codigoProduct': codigoProduct });
+          const codigo = req.params.codigo;
+          const resultado = await productModel.findOne({ 'codigo': codigo });
           if (resultado) {
             res.status(200).json(resultado);
           } else {
@@ -50,10 +52,10 @@ class ProductController {
         }
       }
 
-    async atualizarProduct(req, res) {
+      async atualizarProduct(req, res) {
         try {
-          const codigoProduct = req.params.codigoProduct;
-          const dadoExistente = await productModel.findOne({ 'codigoProduct': codigoProduct });
+          const codigo = req.params.codigo;
+          const dadoExistente = await productModel.findOne({ 'codigo': codigo });
       
           if (!dadoExistente) {
             return res.status(404).json({ error: 'Dado não encontrado' });
@@ -66,12 +68,12 @@ class ProductController {
         } catch (error) {
           res.status(500).json({ error: 'Erro ao atualizar dado' });
         }
-      }      
+      }        
       
       async excluirProduct(req, res) {
         try {
-          const codigoProduct = req.params.codigoProduct;
-          const dadoExistente = await productModel.findOne({ 'codigoProduct': codigoProduct });
+          const codigo = req.params.codigo;
+          const dadoExistente = await productModel.findOne({ 'codigo': codigo });
       
           if (!dadoExistente) {
             return res.status(404).json({ error: 'Dado não encontrado' });
