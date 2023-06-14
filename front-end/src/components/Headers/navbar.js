@@ -21,6 +21,9 @@ function Navbar() {
                     <li className="nav-item">
                         <Link className="nav-item nav-link" to='/#'>Categorias</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-item nav-link" to='/admin'>Area restrita</Link>
+                    </li>
 
                 </ul>
             </div>
