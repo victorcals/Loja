@@ -8,6 +8,16 @@ h1 {
     margin: 4rem;
   }
   
+
+`
+
+export const Cart1 = styled.div`
+.product {
+  text-align: left;
+ 
+}
+
+
 `
 
 

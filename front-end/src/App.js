@@ -13,7 +13,7 @@ import Footer from './components/Footer/index';
 import Load from './components/Loading/load';
 import AdminArea from './pages/Login/admin';
 import Base from './pages/Login/BaseDeLogin/Base';
-
+import Cart from './pages/Cart/cart';
 
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
         <Route path='/cadastro' element={<Register />} />
         <Route path="/admin" element={<AdminArea />} />
         <Route path="/baseADM" element={<Base />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path='/*' element={<div> <h1>  Pagina não existe </h1></div>} />
 
