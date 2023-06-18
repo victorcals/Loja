@@ -6,6 +6,9 @@ const clientSchema = new mongoose.Schema({
     endereco: String,
     telefone: Number,
     cpf: Number,
+    image: {
+        type: Buffer
+    },
     cartaoCredito: Number,
     email: String,
     senha: String

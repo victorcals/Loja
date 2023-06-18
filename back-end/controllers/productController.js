@@ -1,24 +1,42 @@
 const productModel = require('../models/Product');
 const categoryModel = require('../models/Category');
 
+const multer = require("multer");
+
+const imgconfig = multer.diskStorage({
+  destination:(req,file,callback)=>{
+      callback(null,"./uploads")
+  },
+  filename:(req,file,callback)=>{
+      callback(null,`image-${Date.now()}. ${file.originalname}`)
+  }
+})
+
+const upload = multer({
+  storage:imgconfig,
+});
 
 class ProductController {
     async salvarProduct(req, res) {
-         try {
-            
-          const max = await productModel.findOne({}).sort({ codigo: -1 });
-          const product = req.body;
-          product.codigo = max == null ? 1 : max.codigo + 1;
-
-          const category = await categoryModel.findOne({codigo: product.category.codigo });
+         try {  
+        const max = await productModel.findOne({}).sort({ codigo: -1 });
+        const product = req.body;
+        product.codigo = max == null ? 1 : max.codigo + 1;
+        product.image = req.file.path;
+        
+        const category = await categoryModel.findOne({ codigo: product.category.codigo });
+        if (category) {
           product.category = category._id;
 
           const resultado = await productModel.create(product);
-          if(resultado)
-          res.status(201).json('Usuário cadastrado com sucesso. Verifique no banco!');
-          else {
+          if (resultado) {
+            res.status(201).json('Produto cadastrado com sucesso. Verifique no banco!');
+          } else {
             res.status(404).json({ error: 'Dado não encontrado' });
           }
+        } else {
+          res.status(404).json({ error: 'Categoria não encontrada' });
+        }
         } catch (error) {
           res.status(500).json({ error: 'Erro ao salvar dado' });
         } 
@@ -27,7 +45,7 @@ class ProductController {
        
       async listarProduct(req, res) {
         try {
-          const resultado = await productModel.find({});
+          const resultado = await productModel.find();
           if(resultado)
           res.status(200).json(resultado);
           else {
@@ -86,9 +104,7 @@ class ProductController {
         } catch (error) {
           res.status(500).json({ error: 'Erro ao excluir dado' });
         }
-      }
-      
-      
+      }  
 }
 
 module.exports = new ProductController();

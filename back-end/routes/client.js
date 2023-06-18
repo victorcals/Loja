@@ -1,20 +1,25 @@
 var express = require('express');
 var router = express.Router();
-
+const multer = require("multer");
 const clientController = require("../controllers/clientController")
 
-// /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+const imgconfig = multer.diskStorage({
+    destination:(req,file,callback)=>{
+        callback(null,"./uploads")
+    },
+    filename:(req,file,callback)=>{
+        callback(null,`imgae-${Date.now()}. ${file.originalname}`)
+    }
+  })
+
+  const upload = multer({
+    storage:imgconfig,
+  });
+
 router.get('/', clientController.listar);
-router.post('/', clientController.salvar);
+router.post('/', upload.single('image'), clientController.salvar);
 router.get('/:codigoClient', clientController.buscarPorCodigo);
 router.put('/:codigoClient', clientController.atualizar);
 router.delete('/:codigoClient', clientController.excluir);
-
-// router
-//     .route('/')
-//     .post((req, res)=> clientController.create(req, res))
 
 module.exports = router;

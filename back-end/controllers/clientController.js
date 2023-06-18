@@ -1,4 +1,19 @@
 const clientModel = require('../models/Client');
+const multer = require("multer");
+
+const imgconfig = multer.diskStorage({
+  destination:(req,file,callback)=>{
+      callback(null,"./uploads")
+  },
+  filename:(req,file,callback)=>{
+      callback(null,`imgae-${Date.now()}. ${file.originalname}`)
+  }
+})
+
+const upload = multer({
+  storage:imgconfig,
+});
+
 
 class ClientController {
     async salvar(req, res) {
@@ -6,6 +21,8 @@ class ClientController {
           let client = req.body;
           const max = await clientModel.findOne({}).sort({ codigoClient: -1 });
           client.codigoClient = max == null ? 1 : max.codigoClient + 1;
+          client.image = req.file.path; // Adiciona o caminho da imagem ao objeto client
+
           const resultado = await clientModel.create(client);
           if(resultado)
           res.status(201).json('Usuário cadastrado com sucesso. Verifique no banco!');
