@@ -85,19 +85,21 @@ function Home() {
                 </div>
             </OrderByContainer>
 
+            <MovieList>
 
-            {sortedMovies
-                .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-                .map(produto => (
-                    <Link to={`/details/${produto._id}`} key={produto._id}>
-                        <div>
-                            <img src={`data:image/jpeg;base64,${produto.image}`} alt={produto.nome} />
-                            <span>{produto.nome}</span>
-                            <span>Preço: R$ {produto.preco}</span>
-                        </div>
-                    </Link>
-                ))}
-
+                {sortedMovies
+                    .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map(produto => (
+                        <Link to={`/details/${produto.codigo}`} key={produto.codigo}>
+                            <div>
+                                <img src={`data:image/base64,${produto.image}`} /*alt={produto.nome}*/ /><br></br>
+                                <span>{produto.nome}</span><br></br>
+                                <span>Preço: R$ {produto.preco}</span><br></br>
+                                <span>animal: {produto.descricao}</span>
+                            </div>
+                        </Link>
+                    ))}
+            </MovieList>
         </Container>
     );
 }
