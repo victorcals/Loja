@@ -1,38 +1,29 @@
-import { Movie } from "../../components/Style/styleMovie";
-import { Container, MovieList, OrderByContainer } from "../../components/Style/styles";
-import { useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Assistido from "../../components/Button/assistido";
+import { Container, MovieList, OrderByContainer } from "../../components/Style/styles";
 
 function Home() {
-    const [data, setData] = useState(false);
-
-    const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [orderBy, setOrderBy] = useState('titulo');
     const [orderDirection, setOrderDirection] = useState('asc');
 
     useEffect(() => {
-        fetch('https://my-json-server.typicode.com/marycamila184/movies/movies')
+        fetch('http://localhost:3000/product')
             .then(response => response.json())
-            .then((data) => {
+            .then(data => {
                 if (data.error) {
-                    setMovies(undefined);
+                    setMovies([]);
                 } else {
                     setMovies(data);
-                    setData(true);
                 }
+            })
+            .catch(error => {
+                console.error('Erro ao obter os produtos:', error);
             });
     }, []);
 
-
-
-    if (!data) {
-        return <p>Carregando...</p>;
-    }
-
-    const handleOrderByChange = (event) => {
+    const handleOrderByChange = event => {
         const [newOrderBy, newOrderDirection] = event.target.value.split(',');
         setOrderBy(newOrderBy);
         setOrderDirection(newOrderDirection);
@@ -41,11 +32,9 @@ function Home() {
     const compareMovies = (a, b) => {
         let comparison = 0;
         if (orderBy === 'titulo') {
-            comparison = a.titulo.localeCompare(b.titulo);
-        } else if (orderBy === 'ano') {
-            comparison = a.ano - b.ano;
-        } else if (orderBy === 'nota') {
-            comparison = a.nota - b.nota;
+            comparison = a.nome.localeCompare(b.nome);
+        } else if (orderBy === 'preco') {
+            comparison = parseFloat(a.preco) - parseFloat(b.preco);
         }
         if (orderDirection === 'desc') {
             comparison *= -1;
@@ -55,40 +44,41 @@ function Home() {
 
     const sortedMovies = [...movies].sort(compareMovies);
 
-    const handleAssistidoClick = (id) => {
-        setMovies(
-            movies.map((movie) =>
-                movie.id === id ? { ...movie, assistido: !movie.assistido } : movie
-            )
-        );
-    };
-
-    const handleSearchInputChange = (event) => {
+    const handleSearchInputChange = event => {
         setSearchTerm(event.target.value);
     };
 
     return (
         <Container>
-            <h1>Loja Apple</h1><br></br>
+            <h1>Loja Apple</h1>
             <h3>Compre os itens abaixo</h3>
             <OrderByContainer>
                 <div className="d-flex justify-content-between mr-md-1">
                     <div className="col-md-3">
                         <div className="form-group">
                             <label htmlFor="search">Pesquisar:</label>
-                            <input type="text" id="search" className="form-control" value={searchTerm} onChange={handleSearchInputChange} />
+                            <input
+                                type="text"
+                                id="search"
+                                className="form-control"
+                                value={searchTerm}
+                                onChange={handleSearchInputChange}
+                            />
                         </div>
                     </div>
                     <div className="col-md-1">
                         <div className="form-group">
                             <label htmlFor="orderby">Ordenar por:</label>
-                            <select id="orderby" className="form-control" value={`${orderBy},${orderDirection}`} onChange={handleOrderByChange}>
+                            <select
+                                id="orderby"
+                                className="form-control"
+                                value={`${orderBy},${orderDirection}`}
+                                onChange={handleOrderByChange}
+                            >
                                 <option value="titulo,asc">Título (A-Z)</option>
                                 <option value="titulo,desc">Título (Z-A)</option>
-                                <option value="ano,asc">Ano antigo</option>
-                                <option value="ano,desc">Ano recente</option>
-                                <option value="nota,asc">Nota menor</option>
-                                <option value="nota,desc">Nota maior</option>
+                                <option value="preco,asc">Preço (Menor)</option>
+                                <option value="preco,desc">Preço (Maior)</option>
                             </select>
                         </div>
                     </div>
@@ -96,71 +86,20 @@ function Home() {
             </OrderByContainer>
 
 
+            {sortedMovies
+                .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+                .map(produto => (
+                    <Link to={`/details/${produto._id}`} key={produto._id}>
+                        <div>
+                            <img src={`data:image/jpeg;base64,${produto.image}`} alt={produto.nome} />
+                            <span>{produto.nome}</span>
+                            <span>Preço: R$ {produto.preco}</span>
+                        </div>
+                    </Link>
+                ))}
 
-
-
-
-
-
-        </Container >
+        </Container>
     );
 }
 
 export default Home;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* <MovieList>
-                {sortedMovies.filter(movie => movie.titulo.toLowerCase().includes(searchTerm.toLowerCase())).map(movie => {
-                    return (
-                        <Movie key={movie.id}>
-                            <Link to={`/details/${movie.id}`}>
-                                <img src={`${movie.poster}`} alt={movie.titulo} />
-                            </Link>
-                            <span>{movie.titulo}</span>
-                            <span>Nota: {movie.nota}</span>
-                            <Assistido
-                                assistido={movie.assistido}
-                                onClick={handleAssistidoClick}
-                                id={movie.id}
-                            />
-                        </Movie>
-                    );
-                })}
-            </MovieList> */}
