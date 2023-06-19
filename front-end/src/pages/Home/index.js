@@ -92,7 +92,20 @@ function Home() {
                     .map(produto => (
                         <Link to={`/details/${produto.codigo}`} key={produto.codigo}>
                             <div>
-                                <img src={`data:image/base64,${produto.image}`} /*alt={produto.nome}*/ /><br></br>
+                                {console.log(produto.image)}
+                                <img
+                src={`data:image/png;base64,${btoa(
+                  String.fromCharCode(...new Uint8Array(produto.image.data))
+                )}`}
+                // alt={produto.nome}
+                className="card-img-top"
+                // style={{
+                //   width: 200,
+                //   height: 200,
+                //   resizeMode: 'cover',
+                //   backgroundColor: 'red',
+                // }}
+              /><br></br>
                                 <span>{produto.nome}</span><br></br>
                                 <span>Preço: R$ {produto.preco}</span><br></br>
                                 <span>animal: {produto.descricao}</span>
