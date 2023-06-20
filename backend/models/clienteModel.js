@@ -35,4 +35,4 @@ clienteSchema.pre('save', async function (next) {
     next();
   });
   
-module.exports = mongoose.model('cliente', clienteSchema);
+module.exports = mongoose.model('clients', clienteSchema);

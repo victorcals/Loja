@@ -24,6 +24,9 @@ app.use(
   swaggerUi.serve, 
   swaggerUi.setup(swaggerDocument)
 );
+app.listen(3000,function(){
+  console.log("Servidor Online!")
+});
 
 app.use(logger('dev'));
 app.use(express.json());
