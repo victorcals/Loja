@@ -1,21 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import jwt from 'jwt-decode'
 
-const pedidoItems = {
-    "total": 285.00,
-    "items": [
-        {
-            "nome": "Item 1",
-            "qtde": 2,
-            "preco": 150
-        },
-        {
-            "nome": "Item 2",
-            "qtde": 1,
-            "preco": 50
-        }
-    ]
-}
+
 
 export default function Checkout() {
 
@@ -41,29 +27,94 @@ export default function Checkout() {
     }
 
     return (
-        <div className="container text-center">
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    {pedidoItems.items.map((item, i) => (
-                        <div className="col" key={i}>
-                            <div className="card">
-                                <div className="card-body">
-                                    <h5 className="card-title">{item.nome} </h5>
-                                    <p>Quantidade: {item.qtde}</p>
-                                    <p>Preço: {item.preco}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+        <div className="container">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-md-6 ">             
+                <h3 className="p-3">Produtos selecionados:</h3>
+                <table className="table table-sm custom-table border">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tipo do Produto</th>
+                      <th scope="col">Quantidade</th>
+                      <th scope="col">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    <tr>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    <td>tesste</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+             
+            </div>
+            <div className="col-md-6 ">
+              <h3 className="p-3">Dados do usuário:</h3>
+              <div className="row border">
+                <div className="col-md-6">
+                  <div className="form-group mt-2">
+                    <label htmlFor="endereco">Endereço:</label>
+                    <input type="text" id="endereco" className="form-control" disabled />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="nome-cartao">Nome do cartão:</label>
+                    <input type="text" id="nome-cartao" className="form-control" disabled />
+                  </div>
                 </div>
-                <div className="row">
-                    <div className="col">
-                        <br />
-                        <p className="lead">Valor Total do Pedido: R$ {pedidoItems.total}</p>
-                    </div>
+                <div className="col-md-6">
+                  <div className="form-group mt-2">
+                    <label htmlFor="numero-cartao">Número do cartão:</label>
+                    <input type="text" id="numero-cartao" className="form-control" disabled />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="cvc">CVC:</label>
+                    <input type="text" id="cvc" className="form-control" disabled />
+                  </div><br />
                 </div>
-                <button type="submit" className="btn btn-primary">Finalizar Pedido</button>
-            </form>
-        </div>
-    )
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-4">
+            <button type="submit" className="btn btn-primary">
+              Finalizar pedido
+            </button>
+          </div>
+        </form>
+      </div>
+      
+
+    );
 }
