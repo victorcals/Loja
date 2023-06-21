@@ -14,6 +14,10 @@ var indexRouter = require('./routes/indexRouter');
 var pedidoRouter = require('./routes/pedidoRouter');
 var clienteRouter = require('./routes/clienteRouter');
 var loginRouter = require('./routes/loginRouter');
+var categoryRouter = require('./routes/categoryRouter');
+var productRouter = require('./routes/productRouter');
+
+
 
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +43,9 @@ app.use('/', indexRouter);
 app.use('/auth', loginRouter);
 app.use('/clientes', clienteRouter);
 app.use('/pedidos', pedidoRouter);
+app.use('/category', categoryRouter);
+app.use('/product', productRouter);
+
 
 app.use(function(req, res, next) {
   next(createError(404));

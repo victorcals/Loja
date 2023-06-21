@@ -7,7 +7,13 @@ const clienteSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    telefone: String,
+    image: {
+        type: Buffer
+    },
+    endereco: String,
+    telefone: Number,
+    cpf: Number,
+    cartaoCredito: Number,
     email: {
         type: String,
         unique: true,

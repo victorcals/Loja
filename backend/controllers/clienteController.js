@@ -1,20 +1,41 @@
 const clienteModel = require('../models/clienteModel');
+const multer = require("multer");
 const auth = require('../auth/auth');
+
+const imgconfig = multer.diskStorage({
+    destination:(req,file,callback)=>{
+        callback(null,"./uploads")
+    },
+    filename:(req,file,callback)=>{
+        callback(null,`image-${Date.now()}. ${file.originalname}`)
+    }
+  }); 
+  const upload = multer({
+    storage:imgconfig,
+  });
 
 class ClienteController {
     async salvar(req, res) {
-        const cliente = req.body;
-        const max = await clienteModel.findOne({}).sort({ codigo: -1 });
-        cliente.codigo = max == null ? 1 : max.codigo + 1;
-
-        if (await clienteModel.findOne({ 'email': cliente.email })) {
-            res.status(400).send({ error: 'Cliente já cadastrado!' });
+        try {
+            const cliente = req.body;
+            const max = await clienteModel.findOne({}).sort({ codigo: -1 });
+            cliente.codigo = max == null ? 1 : max.codigo + 1;
+            cliente.image = req.file.path; // Adiciona o caminho da imagem ao objeto client
+    
+            if (await clienteModel.findOne({ email: cliente.email })) {
+                res.status(400).send({ error: 'Cliente já cadastrado!' });
+                return;
+            }
+    
+            const resultado = await clienteModel.create(cliente);
+            auth.incluirToken(resultado);
+            res.status(201).json(resultado);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send( error);
         }
-
-        const resultado = await clienteModel.create(cliente);
-        auth.incluirToken(resultado);
-        res.status(201).json(resultado);
     }
+    
 
     async listar(req, res) {
         const resultado = await clienteModel.find({});

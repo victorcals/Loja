@@ -4,6 +4,10 @@ import api from '../../services/api';
 export default function Cadastro() {
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [cartaoCredito, setCartaoCredito] = useState('');
+    const [image, setImage] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -13,6 +17,10 @@ export default function Cadastro() {
         const bodyParam = {
             nome: nome,
             telefone: telefone,
+            endereco: endereco,
+            cpf: cpf,
+            cartaoCredito: cartaoCredito,
+            image: image,
             email: email,
             senha: senha
         }
@@ -29,6 +37,10 @@ export default function Cadastro() {
             .finally(() => {
                 setNome("")
                 setTelefone("")
+                setEndereco("")
+                setCpf("")
+                setCartaoCredito("")
+                setImage("")
                 setEmail("")
                 setSenha("")
             })
@@ -51,6 +63,34 @@ export default function Cadastro() {
                                 Telefone:
                                 <input type="text" className="form-control" value={telefone} onChange={(e) => { setTelefone(e.target.value) }} />
                             </label>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label>
+                                Endereço:
+                                <input type="text" className="form-control" value={endereco} onChange={(e) => { setEndereco(e.target.value) }} />
+                            </label>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label>
+                                Cpf:
+                                <input type="text" className="form-control" value={cpf} onChange={(e) => { setCpf(e.target.value) }} />
+                            </label>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label>
+                                Numero Cartão:
+                                <input type="text" className="form-control" value={cartaoCredito} onChange={(e) => { setCartaoCredito(e.target.value) }} />
+                            </label>
+                        </div>
+                        <br />
+                        <div className="auth-wrapper">
+                            <div className="auth-inner" style={{ width: "auto"}}>
+                                    Foto de Perfil:<br/>
+                                    <input accept="image/" type="file" onChange={(e) => { setImage(e.target.files[0]) }}/>                                  
+                            </div>
                         </div>
                         <br />
                         <div className="form-group">
