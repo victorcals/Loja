@@ -9,7 +9,7 @@ function Home() {
     const [orderDirection, setOrderDirection] = useState('asc');
 
     useEffect(() => {
-        fetch('http://localhost:3000/product')
+        fetch('http://localhost:3001/product')
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -88,7 +88,7 @@ function Home() {
                 .map(produto => (
                     <Link to={`/detalhes/${produto.codigo}`} key={produto.codigo}>
                         <div>
-                            <img src={`data:image/base64,${produto.image}`} alt={produto.nome} /><br />
+                            <img src={`data:image/png;base64,` + btoa(String.fromCharCode(...produto.image.data))} alt={produto.nome} /><br />
                             <span>{produto.nome}</span><br />
                             <span>Preço: R$ {produto.preco}</span><br />
                             <span>animal: {produto.descricao}</span>

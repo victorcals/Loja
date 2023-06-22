@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+// Teste
 
 export default function Cadastro() {
     const [nome, setNome] = useState('');
