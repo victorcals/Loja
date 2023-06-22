@@ -11,9 +11,11 @@ const clienteSchema = new mongoose.Schema({
         type: Buffer
     },
     endereco: String,
-    telefone: Number,
-    cpf: Number,
-    cartaoCredito: Number,
+    telefone: String,
+    cpf: String,
+    nomeCartao: String,
+    cvc: String,
+    cartaoCredito: String,
     email: {
         type: String,
         unique: true,

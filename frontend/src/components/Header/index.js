@@ -5,8 +5,10 @@ import './style.css';
 export default function Header() {
     return (
         <div className="container">
-            <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+             {/* <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"></a> */}
+            <header className=" mb-4 border-bottom">
+                <a href="/" className="d-flex ">
                     <svg className="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"></svg>
                 </a>
 
