@@ -14,18 +14,24 @@ export default function Cadastro() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const bodyParam = {
-            nome: nome,
-            telefone: telefone,
-            endereco: endereco,
-            cpf: cpf,
-            cartaoCredito: cartaoCredito,
-            image: image,
-            email: email,
-            senha: senha
-        }
+        const formData = new FormData() ;
 
-        api.post('/clientes', bodyParam)
+        formData.append('nome', nome);
+        formData.append('telefone', telefone);
+        formData.append('endereco', endereco);
+        formData.append('cpf', cpf);
+        formData.append('cartaoCredito', cartaoCredito);
+        formData.append('image', image);
+        formData.append('email', email);
+        formData.append('senha', senha);        
+
+        const config = {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+
+        api.post('/clientes', formData, config)
             .then((response) => {
                 console.log(response.data)
                 alert(" O usuario " + response.data.codigo + " foi criado com sucesso!")
@@ -50,7 +56,7 @@ export default function Cadastro() {
         <div className="container text-center">
             <div className="row">
                 <div className="form-custom">
-                    <form onSubmit={handleSubmit}>
+                    <form action ="/clientes" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>
                                 Nome:
@@ -87,26 +93,27 @@ export default function Cadastro() {
                         </div>
                         <br />
                         <div className="auth-wrapper">
-                            <div className="auth-inner" style={{ width: "auto" }}>
-                                Foto de Perfil:<br />
-                                <input accept="image/" type="file" onChange={(e) => { setImage(e.target.files[0]) }} />
+                            <div className="auth-inner" style={{ width: "auto"}}>
+                                    Foto de Perfil:<br/>
+                                    <input type="file" onChange={(e) => { setImage(e.target.files[0]) }}/>                                  
                             </div>
                         </div>
                         <br />
                         <div className="form-group">
                             <label>
                                 Email:
-                                <input type="email" className="form-control" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                                <input type="email" className="form-control" required value={email} onChange={(e) => { setEmail(e.target.value) }} />
                             </label>
                         </div>
                         <br />
                         <div className="form-group">
                             <label>
                                 Senha:
-                                <input type="password" className="form-control" value={senha} onChange={(e) => { setSenha(e.target.value) }} />
+                                <input type="password" className="form-control" required value={senha} onChange={(e) => { setSenha(e.target.value) }} />
                             </label>
                         </div>
                         <br />
+                        <div></div>
                         <button type="submit" className="btn btn-primary">Cadastrar</button>
                     </form>
                 </div>
