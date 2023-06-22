@@ -17,6 +17,7 @@ export default function Cadastro() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+
         const formData = new FormData();
 
         formData.append('nome', nome);
@@ -57,12 +58,18 @@ export default function Cadastro() {
                 setEmail("")
                 setSenha("")
             })
+
     }
+    //Formata o input do numero do cartão 
+    const formatCardNumber = (value) => {
+        const cardNumber = value.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito do valor do cartão       
+        const formattedCardNumber = cardNumber.replace(/(\d{4})(?=\d)/g, '$1-'); // Aplica a formatação com hífens
+        return formattedCardNumber;
+    };
 
     return (
 
         <div className="container">
-
             <form action="/clientes" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-md-6 ">
@@ -108,16 +115,18 @@ export default function Cadastro() {
                             <input type="text" className="form-control" value={nomeCartao} onChange={(e) => { setNomeCartao(e.target.value) }} />
                         </div>
                         <div className="mt-3">
-                            <label >Número do Cartão:</label><br />
-                            <input type="text" className="form-control" value={cartaoCredito} onChange={(e) => { setCartaoCredito(e.target.value) }} />
+                            <label>Número do Cartão:</label><br />
+                            <input type="text" className="form-control" id="CartaoCreditoInput" maxLength={19} value={formatCardNumber(cartaoCredito)} onChange={(e) => { setCartaoCredito(e.target.value) }} />
                         </div>
                         <div className="mt-3">
                             <label >Número do CVC:</label><br />
-                            <input type="text" className="form-control" required value={cvc} onChange={(e) => { setCvc(e.target.value) }} />
+                            <input type="password" className="form-control" maxLength={3} required value={cvc} onChange={(e) => { setCvc(e.target.value) }} />
                         </div>
-                        <div className="mt-3">
-                            <label>Email: </label>
-                            <input type="email" className="form-control" required value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                        <div className="mt-5">
+                            <div className="mt-3">
+                                <label>Email: </label>
+                                <input type="email" className="form-control" required value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                            </div>
                         </div>
                         <div className="mt-3">
                             <label>Senha: </label>
@@ -126,8 +135,6 @@ export default function Cadastro() {
                     </div>
                 </div>
                 <div>
-
-
                     <div className="mt-5 text-center">
                         <button type="submit" className="btn btn-primary">Cadastrar</button>
                     </div>
@@ -136,73 +143,6 @@ export default function Cadastro() {
 
         </div>
 
-        //     <div className="container">
-        //         <div className="mt-5 text-center">
-        //             <h1> Complete a sua compra </h1>
-        //         </div>
-        //         <form action="/clientes" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-        //             <div className="row mt-5">
-        //                 <div className="col">
-        //                     <div>
-        //                         <div className="mt-3">
-        //                             <label> Dados do usuário </label>
-        //                         </div>
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label >Nome Completo:</label><br />
-        //                         <input type="text" className="form-control" value={nome} onChange={(e) => { setNome(e.target.value) }} />
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label >Telefone:</label><br />
-        //                         <input type="text" className="form-control" value={telefone} onChange={(e) => { setTelefone(e.target.value) }} />
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label >Endereço de entrega:</label><br />
-        //                         <input type="text" className="form-control" value={endereco} onChange={(e) => { setEndereco(e.target.value) }} />
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label>
-        //                             Email: </label>
-        //                         <input type="email" className="form-control" required value={email} onChange={(e) => { setEmail(e.target.value) }} />
 
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <div className="auth-inner" style={{ width: "auto" }}>
-        //                             Foto de Perfil: <br />
-        //                             <input type="file" onChange={(e) => { setImage(e.target.files[0]) }} />
-        //                         </div>
-        //                     </div>
-        //                 </div>
-        //                 <div className="mt-">
-        //                     <label>
-        //                         Senha: </label>
-        //                     <input type="password" className="form-control" required value={senha} onChange={(e) => { setSenha(e.target.value) }} />
-
-        //                 </div>
-        //                 <div className="col">
-        //                     <div className="mt-3">
-        //                         <label> Dados do Cartão </label>
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label >Nome no Cartão:</label><br />
-        //                         <input type="text" className="form-control" value={cpf} onChange={(e) => { setCpf(e.target.value) }} /><br />
-        //                     </div>
-        //                     <div className="mt-3">
-        //                         <label >Número do Cartão:</label><br />
-        //                         <input type="text" className="form-control" value={cartaoCredito} onChange={(e) => { setCartaoCredito(e.target.value) }} />  <br />
-        //                     </div>
-        //                     {/* <div className="mt-3">
-        //     <label >Número do CVC:</label><br />
-        //   </div> */}
-        //                 </div>
-        //             </div>
-        //             <div>
-
-        //                 <div className="mt-5 text-center">
-        //                     <button type="submit" className="btn btn-primary">Cadastrar</button>
-        //                 </div>
-        //             </div>
-        //         </form>
-        //     </div>
     );
 }
