@@ -11,11 +11,12 @@ export default function Header() {
                 </a>
 
                 <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li> <Link className="nav-link" to='/'><Icon icon="ps:cart-supermarket"className="custom-icon" /> </Link> </li>
+                    <li> <Link className="nav-link" to='/'>Home</Link> </li>
+                    <li> <Link className="nav-link" to='/pedido'><Icon icon="ps:cart-supermarket" className="custom-icon" /> </Link> </li>
                     <li> <Link className="nav-link" to='/cliente'>Cliente</Link> </li>
                     <li> <Link className="nav-link" to='/login'>Login</Link> </li>
                 </ul>
-                
+
             </header>
         </div>
     )

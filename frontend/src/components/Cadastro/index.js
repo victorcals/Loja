@@ -87,9 +87,9 @@ export default function Cadastro() {
                         </div>
                         <br />
                         <div className="auth-wrapper">
-                            <div className="auth-inner" style={{ width: "auto"}}>
-                                    Foto de Perfil:<br/>
-                                    <input accept="image/" type="file" onChange={(e) => { setImage(e.target.files[0]) }}/>                                  
+                            <div className="auth-inner" style={{ width: "auto" }}>
+                                Foto de Perfil:<br />
+                                <input accept="image/" type="file" onChange={(e) => { setImage(e.target.files[0]) }} />
                             </div>
                         </div>
                         <br />

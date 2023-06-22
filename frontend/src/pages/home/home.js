@@ -86,7 +86,7 @@ function Home() {
             {sortedProducts
                 .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map(produto => (
-                    <Link to={`/details/${produto.codigo}`} key={produto.codigo}>
+                    <Link to={`/detalhes/${produto.codigo}`} key={produto.codigo}>
                         <div>
                             <img src={`data:image/base64,${produto.image}`} alt={produto.nome} /><br />
                             <span>{produto.nome}</span><br />
