@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import api from '../../services/api';
 import { Link } from "react-router-dom";
-import { Container, OrderByContainer } from "../../components/ComponentsStyle/styleProduc";
-
-
+import { Container, OrderByContainer, ProductsList } from "../../components/ComponentsStyle/styleProduc";
 
 function Home() {
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [orderBy, setOrderBy] = useState('titulo');
     const [orderDirection, setOrderDirection] = useState('asc');
-
+    const [categories, setCategories] = useState([]);
+    const [activeCategory, setActiveCategory] = useState('');
 
     useEffect(() => {
-        api.get('/product')
+        api.get('/categories')
+            .then(response => {
+                const categories = response.data;
+                setCategories(categories);
+                if (categories.length > 0) {
+                    setActiveCategory(categories[0]._id); // Define a primeira categoria como ativa por padrão
+                }
+            })
+            .catch(err => console.error(err));
+    }, []);
+
+    useEffect(() => {
+        api.get('/product', { params: { category: activeCategory } })
             .then(response => response.data)
             .then(data => {
                 const updatedProducts = data.map(produto => {
@@ -23,7 +34,7 @@ function Home() {
                 setProducts(updatedProducts);
             })
             .catch(err => console.error(err));
-    }, []);
+    }, [activeCategory]);
 
     if (!products) {
         return <p>Carregando...</p>;
@@ -61,61 +72,69 @@ function Home() {
         return window.btoa(binary);
     };
 
+    const renderProductsByCategory = () => {
+        const filteredProducts = sortedProducts.filter(
+            produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        return filteredProducts.map(produto => (
+            <li key={produto.codigo}>
+                <Link to={`/detalhes/${produto.codigo}`}>
+                    <div className="card">
+                        <img src={`data:image/png;base64,${produto.image}`} alt={produto.nome} className="card-img-top" />
+                        <div className="card-body">
+                            <h5 className="card-title">{produto.nome}</h5>
+                            <p><b>R$ {produto.preco}</b></p>
+                        </div>
+                    </div>
+                </Link>
+            </li>
+        ));
+    }
+
     return (
         <Container>
             <h1>Loja Apple</h1>
-            <h3>Compre os itens abaixo</h3>
-            <div className="d-flex justify-content-between mr-md-1">
-                <div className="col-md-3">
-                    <div className="form-group">
-                        <label htmlFor="search">Pesquisar:</label>
-                        <input
-                            type="text"
-                            id="search"
-                            className="form-control"
-                            value={searchTerm}
-                            onChange={handleSearchInputChange}
-                        />
-                    </div>
-                </div>
-                <div className="col-md-1">
-                    <div className="form-group">
-                        <label htmlFor="orderby">Ordenar por:</label>
-                        <select
-                            id="orderby"
-                            className="form-control"
-                            value={`${orderBy},${orderDirection}`}
-                            onChange={handleOrderByChange}
-                        >
-                            <option value="titulo,asc">nome (A-Z)</option>
-                            <option value="titulo,desc">Nome (Z-A)</option>
-                            <option value="preco,asc">Preço (Menor)</option>
-                            <option value="preco,desc">Preço (Maior)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
 
-            {sortedProducts
-                .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-                .map(produto => (
-                    <div className="col-md-4">
-                    <Link to={`/detalhes/${produto.codigo}`} key={produto.codigo}>
-                    <div className="card">
-                    <img src={`data:image/png;base64,${produto.image}`} alt={produto.nome} className="card-img-top" />
-                    <div className="card-body">
-                    <h5 className="card-title">{produto.nome} </h5>
-                    <p><b>Preço:</b>R$ {produto.preco}</p>
+            <OrderByContainer>
+                <h3>Compre os itens abaixo</h3>
+                <div className="d-flex justify-content-between mr-md-1">
+                    <div className="col-md-3">
+                        <div className="form-group">
+                            <label htmlFor="search">Pesquisar:</label>
+                            <input
+                                type="text"
+                                id="search"
+                                className="form-control"
+                                value={searchTerm}
+                                onChange={handleSearchInputChange}
+                            />
+                        </div>
                     </div>
+                    <div className="col-md-1">
+                        <div className="form-group">
+                            <label htmlFor="orderby">Ordenar por:</label>
+                            <select
+                                id="orderby"
+                                className="form-control"
+                                value={`${orderBy},${orderDirection}`}
+                                onChange={handleOrderByChange}
+                            >
+                                <option value="titulo,asc">nome (A-Z)</option>
+                                <option value="titulo,desc">Nome (Z-A)</option>
+                                <option value="preco,asc">Preço (Menor)</option>
+                                <option value="preco,desc">Preço (Maior)</option>
+                            </select>
+                        </div>
                     </div>
-                    </Link>
-                    </div>
-                ))}
+                </div>
+            </OrderByContainer>
+
+            <ProductsList className="products-container">
+                {renderProductsByCategory()}
+            </ProductsList>
         </Container>
     );
 }
 
 export default Home;
-
-
-                        
