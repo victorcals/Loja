@@ -3,26 +3,27 @@ const categoryModel = require('../models/categoryModel');
 
 const multer = require("multer");
 
-const imgconfig = multer.diskStorage({
-  destination:(req,file,callback)=>{
-      callback(null,"./uploads")
-  },
-  filename:(req,file,callback)=>{
-      callback(null,`image-${Date.now()}. ${file.originalname}`)
-  }
-})
+// const imgconfig = multer.diskStorage({
+//   destination:(req,file,callback)=>{
+//       callback(null,"./uploads")
+//   },
+//   filename:(req,file,callback)=>{
+//       callback(null,`image-${Date.now()}. ${file.originalname}`)
+//   }
+// })
 
-const upload = multer({
-  storage:imgconfig,
-});
+// const upload = multer({
+//   storage:imgconfig,
+// });
 
 class ProductController {
     async salvarProduct(req, res) {
          try {  
         const max = await productModel.findOne({}).sort({ codigo: -1 });
         const product = req.body;
+        const file = req.file.buffer;
         product.codigo = max == null ? 1 : max.codigo + 1;
-        product.image = req.file.path;
+        product.image = file
         
         const category = await categoryModel.findOne({ codigo: product.category.codigo });
         if (category) {

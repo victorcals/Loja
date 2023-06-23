@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from "react";
+import api from '../../services/api';
 import { Link } from "react-router-dom";
 import { Container, OrderByContainer } from "../../components/ComponentsStyle/styleProduc";
 
+
+
 function Home() {
-    const [product, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [orderBy, setOrderBy] = useState('titulo');
     const [orderDirection, setOrderDirection] = useState('asc');
 
+
     useEffect(() => {
-        fetch('http://localhost:3001/product')
-            .then(response => response.json())
+        api.get('/product')
+            .then(response => response.data)
             .then(data => {
-                if (data.error) {
-                    setProduct([]);
-                } else {
-                    setProduct(data);
-                }
+                const updatedProducts = data.map(produto => {
+                    const imageData = arrayBufferToBase64(produto.image.data);
+                    return { ...produto, image: imageData };
+                });
+                setProducts(updatedProducts);
             })
-            .catch(error => {
-                console.error('Erro ao obter os produtos:', error);
-            });
+            .catch(err => console.error(err));
     }, []);
+
+    if (!products) {
+        return <p>Carregando...</p>;
+    }
 
     const handleOrderByChange = event => {
         const [newOrderBy, newOrderDirection] = event.target.value.split(',');
@@ -42,10 +48,17 @@ function Home() {
         return comparison;
     };
 
-    const sortedProducts = [...product].sort(compareProdutos);
+    const sortedProducts = [...products].sort(compareProdutos);
 
     const handleSearchInputChange = event => {
         setSearchTerm(event.target.value);
+    };
+
+    const arrayBufferToBase64 = (buffer) => {
+        let binary = '';
+        const bytes = [].slice.call(new Uint8Array(buffer));
+        bytes.forEach((b) => (binary += String.fromCharCode(b)));
+        return window.btoa(binary);
     };
 
     return (
@@ -86,17 +99,23 @@ function Home() {
             {sortedProducts
                 .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map(produto => (
+                    <div className="col-md-4" >
                     <Link to={`/detalhes/${produto.codigo}`} key={produto.codigo}>
-                        <div>
-                            <img src={`data:image/png;base64,` + btoa(String.fromCharCode(...produto.image.data))} alt={produto.nome} /><br />
-                            <span>{produto.nome}</span><br />
-                            <span>Preço: R$ {produto.preco}</span><br />
-                            <span>animal: {produto.descricao}</span>
-                        </div>
+                    <div className="card">
+                    <img src={`data:image/png;base64,${produto.image}`} alt={produto.nome} className="card-img-top" />
+                    <div className="card-body">
+                    <h5 className="card-title">{produto.nome} </h5>
+                    <p><b>Preço:</b>R$ {produto.preco}</p>
+                    </div>
+                    </div>
                     </Link>
+                    </div>
                 ))}
         </Container>
     );
 }
 
 export default Home;
+
+
+                        
