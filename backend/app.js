@@ -16,7 +16,7 @@ var clienteRouter = require('./routes/clienteRouter');
 var loginRouter = require('./routes/loginRouter');
 var categoryRouter = require('./routes/categoryRouter');
 var productRouter = require('./routes/productRouter');
-
+var comentariosRouter = require('./routes/comentariosRouter');
 
 
 var app = express();
@@ -45,7 +45,7 @@ app.use('/clientes', clienteRouter);
 app.use('/pedidos', pedidoRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
-
+app.use('/comentarios', comentariosRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Cliente from './pages/Cliente';
 import Pedido from './pages/Pedido';
 import Home from './pages/home/home';
-import Detalhes from './pages/detalhes';
+import Detalhes from '../src/pages/detalhes/detalhes';
 import EditarCliente from './components/editarCliente/editar';
 import ListaClientes from './components/editarCliente/editarAdm';
 

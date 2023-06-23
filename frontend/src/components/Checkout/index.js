@@ -5,11 +5,12 @@ import jwt from 'jwt-decode';
 export default function Checkout() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [userData, setUserData] = useState({}); // Declare userData state variable
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/products"); // Altere a URL para o endpoint correto do seu backend
+        const response = await fetch("http://localhost:3000/products");
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -20,11 +21,39 @@ export default function Checkout() {
     fetchProducts();
   }, []);
 
+  async function fetchUserData() {
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken) {
+      try {
+        //Busca dados do usuario no banco
+        const data = jwt(storedToken);
+        const response = await fetch(`http://localhost:3001/clientes/${data.codigo}`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          }
+        });
+        const userData = await response.json();
+        console.log(userData);
+        setUserData(userData); 
+      } catch (error) {
+        console.error("Erro ao obter os dados do usuário:", error);
+      }
+    } else {
+      alert('Usuário não autenticado! Por favor, faça o login!');
+      navigate("/login");
+    }
+  }
+
+  useEffect(() => {
+    fetchUserData();
+  }, []); 
+
+   //valida se esta logado ou não
   function handleSubmit(event) {
     event.preventDefault();
 
     const storedToken = localStorage.getItem("token");
-
     if (storedToken) {
       try {
         const data = jwt(storedToken);
@@ -38,6 +67,8 @@ export default function Checkout() {
       navigate("/login");
     }
   }
+
+ 
 
   return (
     <div className="container">
@@ -96,6 +127,7 @@ export default function Checkout() {
                 </tr>
               </tbody>
             </table>
+        
           </div>
           <div className="col-md-6">
             <h3 className="p-3">Dados do usuário:</h3>
@@ -103,21 +135,21 @@ export default function Checkout() {
               <div className="col-md-6">
                 <div className="form-group mt-2">
                   <label htmlFor="endereco">Endereço:</label>
-                  <input type="text" id="endereco" className="form-control" disabled />
+                  <input type="text" id="endereco" value={userData.endereco} className="form-control" disabled />
                 </div>
                 <div className="form-group">
                   <label htmlFor="nome-cartao">Nome do cartão:</label>
-                  <input type="text" id="nome-cartao" className="form-control" disabled />
+                  <input type="text" id="nome-cartao" value={userData.nomeCartao} className="form-control" disabled />
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="form-group mt-2">
                   <label htmlFor="numero-cartao">Número do cartão:</label>
-                  <input type="text" id="numero-cartao" className="form-control" disabled />
+                  <input type="text" id="numero-cartao" value={userData.cartaoCredito} className="form-control" disabled />
                 </div>
                 <div className="form-group">
                   <label htmlFor="cvc">CVC:</label>
-                  <input type="text" id="cvc" className="form-control" disabled />
+                  <input type="password" id="cvc" value={userData.cvc} className="form-control" disabled />
                 </div>
               </div>
             </div>
