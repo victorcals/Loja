@@ -99,7 +99,7 @@ function Home() {
             {sortedProducts
                 .filter(produto => produto.nome.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map(produto => (
-                    <div className="col-md-4" >
+                    <div className="col-md-4">
                     <Link to={`/detalhes/${produto.codigo}`} key={produto.codigo}>
                     <div className="card">
                     <img src={`data:image/png;base64,${produto.image}`} alt={produto.nome} className="card-img-top" />
