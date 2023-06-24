@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from '../../services/api';
 import { Link } from "react-router-dom";
 import { Container, OrderByContainer, ProductsList } from "../../components/ComponentsStyle/styleProduc";
-
+import { Row, Col } from 'react-bootstrap';
 function Home() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -72,29 +72,46 @@ function Home() {
     return window.btoa(binary);
   };
 
+  
+
+  
+
   const renderProductsByCategory = () => {
-    return categories.map(category => (
-      <div key={category._id}>
-        <h2>{category.nome}</h2>
-        <div className="products-container">
-          {sortedProducts
-            .filter(product => product.category === category._id)
-            .filter(product => product.nome.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map(product => (
-              <div className="card text-white bg-dark mb-3" key={product.codigo}>
-                <Link to={`/detalhes/${product.codigo}`} style={{ textDecoration: 'none' }}>
-                  <img src={`data:image/png;base64,${product.image}`} alt={product.nome} className="card-img-top" style={{height: 350, width:350}} />
-                  <div className="card-body">
-                    <h5 className="card-title" style={{color:"white"}}>{product.nome}</h5>
-                    <p><b style={{color:"white"}}>R$ {product.preco}</b></p>
-                  </div>
-                </Link>
+    return (
+      <div className="category-container mt-3">
+        {categories.map(category => (
+          <Row key={category._id}>
+            <h2 className="mt-5">{category.nome}</h2>
+            <Col className="mr-5">
+              <div className="products-container">
+                <Row>
+                  {sortedProducts
+                    .filter(product => product.category === category._id)
+                    .filter(product => product.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map(product => (
+                      <Col key={product.codigo} xs={12} sm={6} md={4} lg={3}>
+                        <div className="card text-white bg-dark mb-3">
+                          <Link to={`/detalhes/${product.codigo}`} style={{ textDecoration: 'none' }}>
+                            <img src={`data:image/png;base64,${product.image}`} alt={product.nome} className="card-img-top" style={{ height: 350, width: 350 }} />
+                            <div className="card-body">
+                              <h5 className="card-title" style={{ color: "white" }}>{product.nome}</h5>
+                              <p><b style={{ color: "white" }}>R$ {product.preco}</b></p>
+                            </div>
+                          </Link>
+                        </div>
+                      </Col>
+                    ))}
+                </Row>
               </div>
-            ))}
-        </div>
+            </Col>
+          </Row>
+        ))}
       </div>
-    ));
+    );
   }
+  
+  
+  
 
   return (
     <Container>

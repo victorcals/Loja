@@ -80,19 +80,19 @@ export default function Cadastro() {
                         </div>
                         <div className="mt-3">
                             <label >Nome Completo:</label><br />
-                            <input type="text" className="form-control" value={nome} onChange={(e) => { setNome(e.target.value) }} />
+                            <input type="text" className="form-control" value={nome} onChange={(e) => { setNome(e.target.value) }} required />
                         </div>
                         <div className="mt-3">
                             <label >Telefone:</label><br />
-                            <input type="text" className="form-control" value={telefone} onChange={(e) => { setTelefone(e.target.value) }} />
+                            <input type="text" className="form-control" value={telefone} onChange={(e) => { setTelefone(e.target.value) }} required/>
                         </div>
                         <div className="mt-3">
                             <label >Endereço de entrega:</label><br />
-                            <input type="text" className="form-control" value={endereco} onChange={(e) => { setEndereco(e.target.value) }} />
+                            <input type="text" className="form-control" value={endereco} onChange={(e) => { setEndereco(e.target.value) }} required/>
                         </div>
                         <div className="mt-3">
                             <label >CPF:</label><br />
-                            <input type="text" className="form-control" value={cpf} onChange={(e) => { setCpf(e.target.value) }} /><br />
+                            <input type="text" className="form-control" value={cpf} onChange={(e) => { setCpf(e.target.value) }} required/><br />
                         </div>
                         <div className="mt-3 border">
                             <div className="auth-inner " style={{ width: "auto" }}>
@@ -102,7 +102,7 @@ export default function Cadastro() {
                                         <img src={image ? URL.createObjectURL(image) : "placeholder.jpg"} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                     </div>
                                 </label>
-                                <input id="profile-pic" type="file" className="d-none" onChange={(e) => { setImage(e.target.files[0]) }} />
+                                <input id="profile-pic" type="file" className="d-none" onChange={(e) => { setImage(e.target.files[0]) }} required/>
                             </div>
                         </div>
                     </div>
@@ -112,11 +112,11 @@ export default function Cadastro() {
                         </div>
                         <div className="mt-3">
                             <label >Nome no Cartão:</label><br />
-                            <input type="text" className="form-control" value={nomeCartao} onChange={(e) => { setNomeCartao(e.target.value) }} />
+                            <input type="text" className="form-control" value={nomeCartao} onChange={(e) => { setNomeCartao(e.target.value) }} required/>
                         </div>
                         <div className="mt-3">
                             <label>Número do Cartão:</label><br />
-                            <input type="text" className="form-control" id="CartaoCreditoInput" maxLength={19} value={formatCardNumber(cartaoCredito)} onChange={(e) => { setCartaoCredito(e.target.value) }} />
+                            <input type="text" className="form-control" id="CartaoCreditoInput" maxLength={19} value={formatCardNumber(cartaoCredito)} onChange={(e) => { setCartaoCredito(e.target.value) }} required/>
                         </div>
                         <div className="mt-3">
                             <label >Número do CVC:</label><br />

@@ -4,29 +4,13 @@ import jwt from 'jwt-decode';
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [userData, setUserData] = useState({}); // Declare userData state variable
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/products");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Erro ao obter os produtos:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const [userData, setUserData] = useState({});
+  const [selectedProducts, setSelectedProducts] = useState([]); // Estado para armazenar os produtos selecionados
 
   async function fetchUserData() {
     const storedToken = localStorage.getItem("token");
-
     if (storedToken) {
       try {
-        //Busca dados do usuario no banco
         const data = jwt(storedToken);
         const response = await fetch(`http://localhost:3001/clientes/${data.codigo}`, {
           headers: {
@@ -34,8 +18,7 @@ export default function Checkout() {
           }
         });
         const userData = await response.json();
-        console.log(userData);
-        setUserData(userData); 
+        setUserData(userData);
       } catch (error) {
         console.error("Erro ao obter os dados do usuário:", error);
       }
@@ -47,9 +30,13 @@ export default function Checkout() {
 
   useEffect(() => {
     fetchUserData();
-  }, []); 
+    // Recuperar os produtos selecionados do localStorage
+    const storedProducts = localStorage.getItem("selectedProducts");
+    if (storedProducts) {
+      setSelectedProducts(JSON.parse(storedProducts));
+    }
+  }, []);
 
-   //valida se esta logado ou não
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -57,7 +44,6 @@ export default function Checkout() {
     if (storedToken) {
       try {
         const data = jwt(storedToken);
-        console.log(data);
         alert("Compra efetuada com sucesso para o cliente código: " + data.codigo + ".");
       } catch (error) {
         console.log(error);
@@ -68,50 +54,31 @@ export default function Checkout() {
     }
   }
 
-   // Recupera os dados do LocalStorage ao carregar a página
-   useEffect(() => {
-    const storedProducts = localStorage.getItem('products');
-
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    }
-  }, []);
-
-
-  // Função para adicionar um novo produto
-  const adicionarProduto = (produto) => {
-    const novosProdutos = [...products, produto];
-    setProducts(novosProdutos);
-    localStorage.setItem('products', JSON.stringify(novosProdutos));
-  };
-
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="row">
-        <div className="col-md-6">
-      <h3 className="p-3">Produtos selecionados:</h3>
-      <table className="table table-sm custom-table border">
-        <thead>
-          <tr>
-            <th scope="col">Tipo do Produto</th>
-            <th scope="col">Quantidade</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={index}>
-              <td>{product.tipo}</td>
-              <td>{product.quantidade}</td>
-              <td>{product.valor}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Restante do seu código... */}
-    </div>
+          <div className="col-md-6">
+            <h3 className="p-3">Produtos selecionados:</h3>
+            <table className="table table-sm custom-table border">
+              <thead>
+                <tr>
+                  <th scope="col">Tipo do Produto</th>
+                  <th scope="col">Quantidade</th>
+                  <th scope="col">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedProducts.map((product, index) => (
+                  <tr key={index}>
+                    <td>{product.nome}</td>
+                    <td>{product.preco}</td>
+                  
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="col-md-6">
             <h3 className="p-3">Dados do usuário:</h3>
             <div className="row border">

@@ -10,7 +10,6 @@ export default function Detalhes() {
   const [product, setProduct] = useState(null);
   const [comentarios, setComentarios] = useState([]);
   const [categorys, setCategory] = useState([]);
- 
 
   // Busca o produto
   useEffect(() => {
@@ -24,7 +23,7 @@ export default function Detalhes() {
       .catch(err => console.error(err));
   }, [id]);
 
-  //busca os comentarios 
+  // Busca os comentários
   useEffect(() => {
     api.get('/comentarios/')
       .then(response => {
@@ -34,7 +33,7 @@ export default function Detalhes() {
       .catch(err => console.error(err));
   }, []);
 
-  //busca os category
+  // Busca as categorias
   useEffect(() => {
     api.get('/category/')
       .then(response => {
@@ -52,7 +51,7 @@ export default function Detalhes() {
     return window.btoa(binary);
   };
 
-  // Caso não ache o produto
+  // Caso não encontre o produto
   if (!product) {
     return (
       <div className="p-3 mb-2 bg-danger text-white">
@@ -61,10 +60,15 @@ export default function Detalhes() {
     );
   }
 
-  function salvarDadosLocalStorage(dados) {
+  // Salva os dados no Local Storage
+  function salvarDadosLocalStorage() {
+    const dados = {
+      nome: product.nome,
+      preco: product.preco,
+    };
     localStorage.setItem('dados', JSON.stringify(dados));
+    console.log('Dados salvos no Local Storage:', dados);
   }
-  
 
   return (
     <div>
@@ -88,7 +92,7 @@ export default function Detalhes() {
                 })}
                 <p className="text-left"><b>Preço:</b> R$: {product.preco}</p>
                 <p className="text-left"><b>Detalhes do produto:</b> {product.descricao}</p>
-                <button type="submit" className="btn btn-primary mt-5" >
+                <button type="submit" className="btn btn-primary mt-5" onClick={salvarDadosLocalStorage}>
                   Adicionar ao carrinho
                 </button>
               </div>
@@ -96,7 +100,7 @@ export default function Detalhes() {
           </div>
         </div>
       </div>
-      {/* Lista os comentarios */}
+      {/* Lista os comentários */}
       <div className="d-flex flex-column align-items-center">
         <h2 className="mt-5">Comentários</h2>
         <ul className="list-group">
@@ -111,7 +115,7 @@ export default function Detalhes() {
             return null;
           })}
         </ul>
-        {/* faz a conta das notas e mostra */}
+        {/* Faz a contagem das notas e mostra */}
         <p className="mt-3">
           <FaStar style={{ color: 'yellow' }} /> O produto tem nota:{' '}
           {comentarios.reduce((acc, comentario) => comentario.product === product._id ? acc + +comentario.nota : acc, 0)}
