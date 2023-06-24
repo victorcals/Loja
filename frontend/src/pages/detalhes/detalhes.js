@@ -70,6 +70,26 @@ export default function Detalhes() {
     console.log('Dados salvos no Local Storage:', dados);
   }
 
+
+  function calcularMediaNotas() {
+    const notas = comentarios.reduce((acc, comentario) => {
+      if (comentario.product === product._id) {
+        const nota = parseFloat(comentario.nota);
+        if (!isNaN(nota)) {
+          return acc + nota;
+        }
+      }
+      return acc;
+    }, 0);
+
+    const quantidadeComentarios = comentarios.filter(comentario => comentario.product === product._id).length;
+    const media = notas / quantidadeComentarios;
+
+    return isNaN(media) ? 0 : media.toFixed(2);
+  }
+
+
+
   return (
     <div>
       <Title title={"Detalhes"} text="" />
@@ -117,8 +137,8 @@ export default function Detalhes() {
         </ul>
         {/* Faz a contagem das notas e mostra */}
         <p className="mt-3">
-          <FaStar style={{ color: 'yellow' }} /> O produto tem nota:{' '}
-          {comentarios.reduce((acc, comentario) => comentario.product === product._id ? acc + +comentario.nota : acc, 0)}
+          <FaStar style={{ color: 'yellow' }} /> O produto tem nota média:{' '}
+          {calcularMediaNotas()}
         </p>
       </div>
     </div>

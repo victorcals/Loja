@@ -72,9 +72,9 @@ function Home() {
     return window.btoa(binary);
   };
 
-  
 
-  
+
+
 
   const renderProductsByCategory = () => {
     return (
@@ -109,9 +109,9 @@ function Home() {
       </div>
     );
   }
-  
-  
-  
+
+
+
 
   return (
     <Container>
