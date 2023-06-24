@@ -1,20 +1,20 @@
 const productModel = require('../models/productModel');
 const categoryModel = require('../models/categoryModel');
 
-const multer = require("multer");
+// const multer = require("multer");
 
-const imgconfig = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "./uploads")
-  },
-  filename: (req, file, callback) => {
-    callback(null, `image-${Date.now()}. ${file.originalname}`)
-  }
-})
+// const imgconfig = multer.diskStorage({
+//   destination: (req, file, callback) => {
+//     callback(null, "./uploads")
+//   },
+//   filename: (req, file, callback) => {
+//     callback(null, `image-${Date.now()}. ${file.originalname}`)
+//   }
+// })
 
-const upload = multer({
-  storage: imgconfig,
-});
+// const upload = multer({
+//   storage: imgconfig,
+// });
 
 class ProductController {
   async salvarProduct(req, res) {

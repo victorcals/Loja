@@ -78,8 +78,10 @@ export default function Detalhes() {
             <div className="row">
               <div className="col-md-6">
                 <p className="text-left"><b>Nome:</b> {product.nome}</p>
+                <p className="text-left"><b>Categoria:</b> {product.category}</p>
                 <p className="text-left"><b>Preço:</b> R$: {product.preco}</p>
                 <p className="text-left"><b>Detalhes do produto:</b> {product.descricao}</p>
+        
                 <button type="submit" className="btn btn-primary mt-5">
                   Adicionar ao carrinho
                 </button>
@@ -91,6 +93,17 @@ export default function Detalhes() {
           </div>
         </div>
       </div>
+      <div className="mt-5">
+          <label className=""><b>Comentários:</b> </label>
+          {product.comments.map((comment, index) => (
+             <div key={index}>
+              <p className="mt-3">Comentário: {comment.text}</p>
+              <p className="mt-3">Nota: {comment.rating}</p>
+            </div>
+  ))}
+</div>
+ 
+      
 
       {/* <div className="mt-5">
         <label className=""><b>Comentários:</b> </label>

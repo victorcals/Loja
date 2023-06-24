@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const multer = require("multer");
+const upload = multer();
 const clienteController = require('../controllers/clienteController');
 
-const imgconfig = multer.diskStorage({
-    destination:(req,file,callback)=>{
-        callback(null,"./uploads")
-    },
-    filename:(req,file,callback)=>{
-        callback(null,`imgae-${Date.now()}. ${file.originalname}`)
-    }
-  });
-  const upload = multer({
-    storage:imgconfig,
-  });
+// const imgconfig = multer.diskStorage({
+//     destination:(req,file,callback)=>{
+//         callback(null,"./uploads")
+//     },
+//     filename:(req,file,callback)=>{
+//         callback(null,`imgae-${Date.now()}. ${file.originalname}`)
+//     }
+//   });
+//   const upload = multer({
+//     storage:imgconfig,
+//   });
 
 router.get('/', clienteController.listar);
 router.post('/', upload.single('image'), clienteController.salvar);
