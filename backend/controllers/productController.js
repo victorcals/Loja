@@ -1,21 +1,6 @@
 const productModel = require('../models/productModel');
 const categoryModel = require('../models/categoryModel');
 
-// const multer = require("multer");
-
-// const imgconfig = multer.diskStorage({
-//   destination: (req, file, callback) => {
-//     callback(null, "./uploads")
-//   },
-//   filename: (req, file, callback) => {
-//     callback(null, `image-${Date.now()}. ${file.originalname}`)
-//   }
-// })
-
-// const upload = multer({
-//   storage: imgconfig,
-// });
-
 class ProductController {
   async salvarProduct(req, res) {
     try {
@@ -57,7 +42,19 @@ class ProductController {
     }
   }
 
-  
+  async buscarPorCodigoProduct(req, res) {
+    try {
+      const codigo = req.params.codigo;
+      const resultado = await productModel.findOne({ 'codigo': codigo });
+      if (resultado) {
+        res.status(200).json(resultado);
+      } else {
+        res.status(404).json({ error: 'Dado não encontrado' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar dado por ID' });
+    }
+  }
 
   async atualizarProduct(req, res) {
     try {
