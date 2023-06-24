@@ -60,36 +60,22 @@ export default function Detalhes() {
     );
   }
 
-  // Salva os dados no Local Storage
-  function salvarDadosLocalStorage() {
-    const dados = {
-      nome: product.nome,
-      preco: product.preco,
-    };
-    localStorage.setItem('dados', JSON.stringify(dados));
-    console.log('Dados salvos no Local Storage:', dados);
-  }
-
-
-  function calcularMediaNotas() {
-    const notas = comentarios.reduce((acc, comentario) => {
-      if (comentario.product === product._id) {
-        const nota = parseFloat(comentario.nota);
-        if (!isNaN(nota)) {
-          return acc + nota;
-        }
+  function salvarDadosLocalStorage(product) {
+    let storedProducts = localStorage.getItem("selectedProducts");
+    if (storedProducts) {
+      const parsedProducts = JSON.parse(storedProducts);
+      if (Array.isArray(parsedProducts)) {
+        parsedProducts.push(product);
+        localStorage.setItem("selectedProducts", JSON.stringify(parsedProducts));
+      } else {
+        localStorage.setItem("selectedProducts", JSON.stringify([product]));
       }
-      return acc;
-    }, 0);
-
-    const quantidadeComentarios = comentarios.filter(comentario => comentario.product === product._id).length;
-    const media = notas / quantidadeComentarios;
-
-    return isNaN(media) ? 0 : media.toFixed(2);
+    } else {
+      localStorage.setItem("selectedProducts", JSON.stringify([product]));
+    }
+    console.log("Dados salvos no Local Storage:", product);
   }
-
-
-
+  
   return (
     <div>
       <Title title={"Detalhes"} text="" />
@@ -112,9 +98,10 @@ export default function Detalhes() {
                 })}
                 <p className="text-left"><b>Preço:</b> R$: {product.preco}</p>
                 <p className="text-left"><b>Detalhes do produto:</b> {product.descricao}</p>
-                <button type="submit" className="btn btn-primary mt-5" onClick={salvarDadosLocalStorage}>
-                  Adicionar ao carrinho
+                <button type="submit" className="btn btn-primary mt-5" onClick={() => salvarDadosLocalStorage(product)}>
+                   Adicionar ao carrinho
                 </button>
+
               </div>
             </div>
           </div>
@@ -137,8 +124,8 @@ export default function Detalhes() {
         </ul>
         {/* Faz a contagem das notas e mostra */}
         <p className="mt-3">
-          <FaStar style={{ color: 'yellow' }} /> O produto tem nota média:{' '}
-          {calcularMediaNotas()}
+          <FaStar style={{ color: 'yellow' }} /> O produto tem nota:{' '}
+          {comentarios.reduce((acc, comentario) => comentario.product === product._id ? acc + +comentario.nota : acc, 0)}
         </p>
       </div>
     </div>

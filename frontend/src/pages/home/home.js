@@ -11,6 +11,8 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('');
 
+  
+  //chamando dados da categoria
   useEffect(() => {
     api.get('/category')
       .then(response => {
@@ -23,6 +25,7 @@ function Home() {
       .catch(err => console.error(err));
   }, []);
 
+  // Fazendo a requisição dos produtos passando como dependencia activeCategory
   useEffect(() => {
     api.get('/product', { params: { category: activeCategory } })
       .then(response => response.data)
@@ -73,9 +76,6 @@ function Home() {
   };
 
 
-
-
-
   const renderProductsByCategory = () => {
     return (
       <div className="category-container mt-3">
@@ -92,7 +92,7 @@ function Home() {
                       <Col key={product.codigo} xs={12} sm={6} md={4} lg={3}>
                         <div className="card text-white bg-dark mb-3">
                           <Link to={`/detalhes/${product.codigo}`} style={{ textDecoration: 'none' }}>
-                            <img src={`data:image/png;base64,${product.image}`} alt={product.nome} className="card-img-top" style={{ height: 350, width: 350 }} />
+                            <img src={`data:image/png;base64,${product.image}`} alt={product.nome} className="card-img-top" style={{ height: 300, width: 300 }} />
                             <div className="card-body">
                               <h5 className="card-title" style={{ color: "white" }}>{product.nome}</h5>
                               <p><b style={{ color: "white" }}>R$ {product.preco}</b></p>
@@ -109,10 +109,7 @@ function Home() {
       </div>
     );
   }
-
-
-
-
+  
   return (
     <Container>
       <h1>Pet Shop</h1>

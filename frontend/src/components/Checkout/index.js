@@ -4,7 +4,7 @@ import jwt from 'jwt-decode';
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]); // Estado para armazenar os produtos selecionados
 
   async function fetchUserData() {
@@ -28,14 +28,46 @@ export default function Checkout() {
     }
   }
 
+  function restaurarDadosLocalStorage() {
+    try {
+      const storedProducts = localStorage.getItem("selectedProducts");
+      if (storedProducts) {
+        const parsedProducts = JSON.parse(storedProducts);
+        if (Array.isArray(parsedProducts)) {
+          return parsedProducts;
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao restaurar dados do Local Storage:", error);
+    }
+    return []; // Retorna um array vazio se ocorrer algum erro ou se não houver dados válidos no Local Storage
+  }
+
+  function removerProduto(index) {
+    const updatedProducts = [...selectedProducts];
+    updatedProducts.splice(index, 1);
+    setSelectedProducts(updatedProducts);
+  }
+   
+  function calcularValorTotal() {
+    if (selectedProducts.length === 0) {
+      return 0;
+    }
+  
+    const total = selectedProducts.reduce((acc, product) => acc + parseFloat(product.preco), 0);
+    return total.toFixed(2);
+  }
+  
+  
+  // Dentro do componente Checkout, adicione a seguinte linha para calcular o valor total:
+  const valorTotal = calcularValorTotal();
+  
   useEffect(() => {
     fetchUserData();
-    // Recuperar os produtos selecionados do localStorage
-    const storedProducts = localStorage.getItem("selectedProducts");
-    if (storedProducts) {
-      setSelectedProducts(JSON.parse(storedProducts));
-    }
+    const storedProducts = restaurarDadosLocalStorage();
+    setSelectedProducts(storedProducts);
   }, []);
+  
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -61,21 +93,31 @@ export default function Checkout() {
           <div className="col-md-6">
             <h3 className="p-3">Produtos selecionados:</h3>
             <table className="table table-sm custom-table border">
-              <thead>
-                <tr>
-                  <th scope="col">Tipo do Produto</th>
-                  <th scope="col">Quantidade</th>
-                  <th scope="col">Valor</th>
-                </tr>
-              </thead>
+            <table className="table table-sm custom-table border">
+  <thead>
+    <tr>
+      <th scope="col">Tipo do Produto</th>
+      <th scope="col">Quantidade</th>
+      <th scope="col">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    {selectedProducts.map((product, index) => (
+      <tr key={index}>
+        <td>{product.nome}</td>
+        <td>{product.quantidade}</td>
+        <td>R$ {product.preco}</td>
+        <td>
+      <button onClick={() => removerProduto(index)}>Remover</button>
+    </td>
+      </tr>  
+    ))}
+  </tbody>
+</table>
               <tbody>
-                {selectedProducts.map((product, index) => (
-                  <tr key={index}>
-                    <td>{product.nome}</td>
-                    <td>{product.preco}</td>
-                  
-                  </tr>
-                ))}
+                  <tr>
+                    <td><b>Total: R$ {valorTotal}</b></td>
+                  </tr>  
               </tbody>
             </table>
           </div>
