@@ -68,67 +68,50 @@ export default function Checkout() {
     }
   }
 
- 
+   // Recupera os dados do LocalStorage ao carregar a página
+   useEffect(() => {
+    const storedProducts = localStorage.getItem('products');
+
+    if (storedProducts) {
+      setProducts(JSON.parse(storedProducts));
+    }
+  }, []);
+
+
+  // Função para adicionar um novo produto
+  const adicionarProduto = (produto) => {
+    const novosProdutos = [...products, produto];
+    setProducts(novosProdutos);
+    localStorage.setItem('products', JSON.stringify(novosProdutos));
+  };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="row">
-          <div className="col-md-6">
-            <h3 className="p-3">Produtos selecionados:</h3>
-            <table className="table table-sm custom-table border">
-              <thead>
-                <tr>
-                  <th scope="col">Tipo do Produto</th>
-                  <th scope="col">Quantidade</th>
-                  <th scope="col">Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product, index) => (
-                  <tr key={index}>
-                    <td>{product.tipo}</td>
-                    <td>{product.quantidade}</td>
-                    <td>{product.valor}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="col-md-6">
+      <h3 className="p-3">Produtos selecionados:</h3>
+      <table className="table table-sm custom-table border">
+        <thead>
+          <tr>
+            <th scope="col">Tipo do Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr key={index}>
+              <td>{product.tipo}</td>
+              <td>{product.quantidade}</td>
+              <td>{product.valor}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-            <table className="table table-sm custom-table border">
-              <thead>
-                <tr>
-                  <th scope="col">Tipo do Produto</th>
-                  <th scope="col">Quantidade</th>
-                  <th scope="col">Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-                <tr>
-                  <td>tesste</td>
-                </tr>
-              </tbody>
-            </table>
-        
-          </div>
+      {/* Restante do seu código... */}
+    </div>
           <div className="col-md-6">
             <h3 className="p-3">Dados do usuário:</h3>
             <div className="row border">
