@@ -5,8 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const swaggerUi = require('swagger-ui-express'),
-swaggerDocument = require('./swagger.json');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 var cors = require('cors');
 
@@ -18,17 +18,11 @@ var categoryRouter = require('./routes/categoryRouter');
 var productRouter = require('./routes/productRouter');
 var comentariosRouter = require('./routes/comentariosRouter');
 
-
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(
-  '/api-docs',
-  swaggerUi.serve, 
-  swaggerUi.setup(swaggerDocument)
-);
-app.listen(3000,function(){
+app.listen(3000, function () {
   console.log("Servidor Online!")
 });
 
@@ -37,8 +31,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
+app.use(cors());
 
+// Definição das rotas
 app.use('/', indexRouter);
 app.use('/auth', loginRouter);
 app.use('/clientes', clienteRouter);
@@ -47,11 +42,34 @@ app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/comentarios', comentariosRouter);
 
-app.use(function(req, res, next) {
+// Configuração do Swagger
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Documentação da API',
+      version: '1.0.0',
+      description: 'Descrição da sua API',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Servidor local',
+      },
+    ],
+  },
+  apis: ['./routes/*.js'], // Certifique-se de que o caminho esteja correto, apontando para os seus arquivos de rota
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Gerenciamento de erros
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
@@ -59,4 +77,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
