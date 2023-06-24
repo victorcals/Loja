@@ -58,6 +58,21 @@ class ComentariosController {
         }
       }
 
+
+      async buscarPorProductComentarios(req, res) {
+        try {
+          const codigo = req.params.codigo;
+          const resultado = await comentariosModel.findOne({ 'nota': codigo });
+          if (resultado) {
+            res.status(200).json(resultado);
+          } else {
+            res.status(404).json({ error: 'Dado não encontrado' });
+          }
+        } catch (error) {
+          res.status(500).json({ error: 'Erro ao buscar dado por ID' });
+        }
+      }
+
       async atualizarComentarios(req, res) {
         try {
           const codigo = req.params.codigo;
