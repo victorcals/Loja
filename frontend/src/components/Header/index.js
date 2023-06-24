@@ -11,14 +11,12 @@ export default function Header() {
                 <a href="/" className="d-flex ">
                     <svg className="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"></svg>
                 </a>
-
                 <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li> <Link className="nav-link" to='/'>Home</Link> </li>
-                    <li> <Link className="nav-link" to='/pedido'><Icon icon="ps:cart-supermarket" className="custom-icon" /> </Link> </li>
+                    <li> <Link className="nav-link" to='/'>Home</Link> </li>                   
                     <li> <Link className="nav-link" to='/cliente'>Cliente</Link> </li>
                     <li> <Link className="nav-link" to='/login'>Login</Link> </li>
+                    <li> <Link className="nav-link" to='/pedido'><Icon icon="ps:cart-supermarket" className="custom-icon" /> </Link> </li>
                 </ul>
-
             </header>
         </div>
     )

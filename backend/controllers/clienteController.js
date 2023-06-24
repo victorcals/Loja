@@ -39,7 +39,7 @@ class ClienteController {
 
     async atualizar(req, res) {
         const codigo = req.params.codigo;
-        const _id = String((await clienteModel.findOne({ 'codigo': codigo }))._id);
+        const _id = String((await clienteModel.findOne({ 'codigo': codigo })).codigo);
 
         const cliente = req.body;
 

@@ -21,7 +21,7 @@ export default function RoutesConfig() {
             <Route path='cliente' element={<Cliente />} />
             <Route path='login' element={<Login />} />
             <Route path='/detalhes/:id' element={<Detalhes />} />
-            <Route path='/clientes' element={<EditarCliente />} />
+            <Route path='/clientes/:id' element={<EditarCliente />} />
 
 
 
